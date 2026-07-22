@@ -9,6 +9,7 @@ export function SiteHeader() {
   const { pathname } = useLocation()
   const blogActive = pathname === '/f' || pathname.startsWith('/f/')
   const stockActive = pathname === '/whats-in-stock'
+  const contactActive = pathname === '/contact'
 
   return (
     <header className="ui-site-header">
@@ -34,15 +35,12 @@ export function SiteHeader() {
           <Link to="/whats-in-stock" className={navClass(stockActive)}>
             What&apos;s in stock
           </Link>
-          <a className={navClass(false)} href="#contact">
+          <Link to="/contact" className={navClass(contactActive)}>
             Contact
-          </a>
-          <a
-            className="ui-btn-primary-sm ml-1"
-            href={`mailto:${site.email}`}
-          >
-            Email
-          </a>
+          </Link>
+          <Link to="/contact" className="ui-btn-primary-sm ml-1">
+            Contact Us
+          </Link>
         </nav>
       </div>
     </header>

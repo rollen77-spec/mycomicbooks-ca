@@ -8,6 +8,8 @@ export const site = {
     'Online comic book store that offers vintage, hard to find books.',
   ogDescription: 'Your ultimate source for comics, collectibles, and more!',
   email: 'sales@mycomicbooks.ca',
+  /** Inbox for contact form submissions */
+  contactEmail: 'rollen77@gmail.com',
   themeColor: '#fec52d',
 }
 
