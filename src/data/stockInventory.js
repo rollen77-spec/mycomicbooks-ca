@@ -8,12 +8,16 @@ export const stockPage = {
   title: 'COMIC INVENTORY',
   navLabel: "What's in stock",
   intro: {
-    heading: 'contact us for more info',
-    email: 'sales@mycomicbooks.ca',
+    heading: 'Contact us for pricing info',
+    body: 'Ask about availability, grades, and holds — we will get back to you.',
+    ctaLabel: 'Contact us for pricing',
+    to: '/contact',
   },
   midCta: {
-    heading: 'Contact us for more details',
-    email: 'sales@mycomicbooks.ca',
+    heading: 'Contact us for pricing info',
+    body: 'See something you like? Send a message and we will confirm pricing.',
+    ctaLabel: 'Contact us for pricing',
+    to: '/contact',
   },
 }
 

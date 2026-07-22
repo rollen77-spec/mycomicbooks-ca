@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { stockPage, stockSections } from '../data/stockInventory.js'
 import { site } from '../data/siteContent.js'
 
@@ -30,16 +31,14 @@ function InventoryCard({ item }) {
   )
 }
 
-function CtaBand({ heading, email }) {
+function CtaBand({ heading, body, ctaLabel, to }) {
   return (
     <div className="ui-cta-panel">
       <h2 className="font-display text-2xl tracking-wide text-ink sm:text-3xl">{heading}</h2>
-      <a
-        className="mt-4 inline-block font-semibold text-lg text-gold-deep underline-offset-4 hover:underline"
-        href={`mailto:${email}`}
-      >
-        {email}
-      </a>
+      {body ? <p className="mx-auto mt-3 max-w-xl text-body-muted">{body}</p> : null}
+      <Link to={to} className="ui-btn-primary mt-5">
+        {ctaLabel}
+      </Link>
     </div>
   )
 }
@@ -64,7 +63,12 @@ export function StockPage() {
       </header>
 
       <div className="mt-12 space-y-12">
-        <CtaBand heading={stockPage.intro.heading} email={stockPage.intro.email} />
+        <CtaBand
+          heading={stockPage.intro.heading}
+          body={stockPage.intro.body}
+          ctaLabel={stockPage.intro.ctaLabel}
+          to={stockPage.intro.to}
+        />
 
         <ul className="grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3">
           {first.items.map((item) => (
@@ -74,7 +78,12 @@ export function StockPage() {
           ))}
         </ul>
 
-        <CtaBand heading={stockPage.midCta.heading} email={stockPage.midCta.email} />
+        <CtaBand
+          heading={stockPage.midCta.heading}
+          body={stockPage.midCta.body}
+          ctaLabel={stockPage.midCta.ctaLabel}
+          to={stockPage.midCta.to}
+        />
 
         <ul className="grid list-none gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3">
           {second.items.map((item) => (
@@ -86,11 +95,11 @@ export function StockPage() {
       </div>
 
       <p className="mt-14 text-center text-sm text-body-muted">
-        Availability changes quickly — email{' '}
-        <a className="font-semibold text-gold-deep hover:underline" href={`mailto:${site.email}`}>
-          {site.email}
-        </a>{' '}
-        to confirm pricing and hold requests.
+        Availability changes quickly —{' '}
+        <Link className="font-semibold text-gold-deep hover:underline" to="/contact">
+          contact us for pricing
+        </Link>{' '}
+        to confirm details and hold requests.
       </p>
     </div>
   )
