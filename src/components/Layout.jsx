@@ -5,7 +5,7 @@ import { SiteHeader } from './SiteHeader.jsx'
 
 export function Layout() {
   return (
-    <div className="flex min-h-dvh flex-col bg-panel text-body">
+    <div className="flex min-h-dvh flex-col bg-panel text-ink">
       <SiteHeader />
       <main className="flex-1">
         <Outlet />

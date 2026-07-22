@@ -70,9 +70,18 @@ export function HeroAnimation() {
     return () => {
       cancelled = true
       if (replayTimerRef.current) clearTimeout(replayTimerRef.current)
-      if (playerRef.current) {
-        playerRef.current.off('ended').catch(() => {})
-        playerRef.current = null
+      const player = playerRef.current
+      playerRef.current = null
+      if (!player) return
+      try {
+        player.off('ended')
+      } catch {
+        // ignore
+      }
+      try {
+        player.unload?.()
+      } catch {
+        // ignore
       }
     }
   }, [reduceMotion])
