@@ -1,0 +1,14 @@
+---
+description: Always commit and push completed work to GitHub
+alwaysApply: true
+---
+
+# Commit and push
+
+When you finish a meaningful change for this project (feature, fix, or content update):
+
+1. Create a git commit with a clear message following the repo style.
+2. Push to `origin` on the current branch (usually `main`).
+3. Do this without waiting to be asked again.
+
+Skip empty commits. Do not force-push or skip hooks unless explicitly requested.
