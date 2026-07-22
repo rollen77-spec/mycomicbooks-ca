@@ -68,6 +68,14 @@
     @apply inline-flex items-center justify-center rounded-lg border border-brand/35 bg-brand px-4 py-2 text-sm font-semibold uppercase tracking-wide text-ink shadow-sm transition duration-200 hover:bg-brand-bright;
   }
 
+  .ui-btn-contact-sm {
+    @apply inline-flex items-center justify-center rounded-lg border border-red-700/40 bg-red-600 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-white shadow-sm transition duration-200 hover:bg-red-500;
+  }
+
+  .ui-btn-contact-sm-active {
+    @apply ring-2 ring-white/50 ring-offset-1 ring-offset-ink;
+  }
+
   .ui-btn-ghost-light {
     @apply inline-flex items-center justify-center rounded-lg border border-cream/25 bg-white/5 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-cream backdrop-blur-sm transition duration-200 hover:border-brand/40 hover:bg-white/10 hover:text-brand;
   }

@@ -9,7 +9,6 @@ export function SiteHeader() {
   const { pathname } = useLocation()
   const blogActive = pathname === '/f' || pathname.startsWith('/f/')
   const stockActive = pathname === '/whats-in-stock'
-  const contactActive = pathname === '/contact'
 
   return (
     <header className="ui-site-header">
@@ -35,12 +34,14 @@ export function SiteHeader() {
           <Link to="/whats-in-stock" className={navClass(stockActive)}>
             What&apos;s in stock
           </Link>
-          <Link to="/contact" className={navClass(contactActive)}>
-            Contact
-          </Link>
-          <Link to="/contact" className="ui-btn-primary-sm ml-1">
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              ['ui-btn-contact-sm ml-1', isActive ? 'ui-btn-contact-sm-active' : ''].filter(Boolean).join(' ')
+            }
+          >
             Contact Us
-          </Link>
+          </NavLink>
         </nav>
       </div>
     </header>
