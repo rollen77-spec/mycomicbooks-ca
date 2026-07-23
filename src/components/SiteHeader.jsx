@@ -28,11 +28,11 @@ export function SiteHeader() {
           <NavLink to="/" className={({ isActive }) => navClass(isActive)} end>
             Home
           </NavLink>
-          <Link to="/f" className={navClass(blogActive)}>
-            Blog
-          </Link>
           <Link to="/whats-in-stock" className={navClass(stockActive)}>
             What&apos;s in stock
+          </Link>
+          <Link to="/f" className={navClass(blogActive)}>
+            Blog
           </Link>
           <NavLink
             to="/contact"
