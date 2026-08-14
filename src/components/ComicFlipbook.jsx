@@ -1,17 +1,89 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-export function ComicFlipbook({ pages }) {
+function pageIndexForTime(time, pageStarts) {
+  let index = 0
+  for (let i = 0; i < pageStarts.length; i += 1) {
+    if (time + 0.12 >= pageStarts[i]) index = i
+  }
+  return index
+}
+
+export function ComicFlipbook({ pages, audio }) {
+  const audioRef = useRef(null)
+  const seekingRef = useRef(false)
+  const pageRef = useRef(0)
   const [currentPage, setCurrentPage] = useState(0)
   const [flipping, setFlipping] = useState(false)
+  const [playing, setPlaying] = useState(false)
   const page = pages[currentPage]
+  const pageStarts = audio?.pageStarts ?? []
+
+  useEffect(() => {
+    pageRef.current = currentPage
+  }, [currentPage])
+
+  useEffect(() => {
+    const el = audioRef.current
+    if (!el) return undefined
+
+    const onPlay = () => {
+      setPlaying(true)
+      window.dispatchEvent(new CustomEvent('mcb:comic-audio', { detail: { playing: true } }))
+    }
+    const onPause = () => {
+      setPlaying(false)
+      window.dispatchEvent(new CustomEvent('mcb:comic-audio', { detail: { playing: false } }))
+    }
+    const onTime = () => {
+      if (seekingRef.current || !audio?.pageStarts?.length) return
+      const nextPage = pageIndexForTime(el.currentTime, audio.pageStarts)
+      if (nextPage !== pageRef.current) {
+        setFlipping(true)
+        setCurrentPage(nextPage)
+        window.setTimeout(() => setFlipping(false), 220)
+      }
+    }
+
+    el.addEventListener('play', onPlay)
+    el.addEventListener('pause', onPause)
+    el.addEventListener('ended', onPause)
+    el.addEventListener('timeupdate', onTime)
+
+    return () => {
+      el.removeEventListener('play', onPlay)
+      el.removeEventListener('pause', onPause)
+      el.removeEventListener('ended', onPause)
+      el.removeEventListener('timeupdate', onTime)
+      el.pause()
+      window.dispatchEvent(new CustomEvent('mcb:comic-audio', { detail: { playing: false } }))
+    }
+  }, [audio?.pageStarts])
 
   function goTo(nextIndex) {
     if (flipping || nextIndex < 0 || nextIndex >= pages.length || nextIndex === currentPage) return
     setFlipping(true)
-    window.setTimeout(() => {
-      setCurrentPage(nextIndex)
-      setFlipping(false)
-    }, 220)
+    setCurrentPage(nextIndex)
+    pageRef.current = nextIndex
+    const el = audioRef.current
+    const start = pageStarts[nextIndex]
+    if (el && typeof start === 'number') {
+      seekingRef.current = true
+      el.currentTime = start
+      window.setTimeout(() => {
+        seekingRef.current = false
+      }, 250)
+    }
+    window.setTimeout(() => setFlipping(false), 220)
+  }
+
+  function toggleNarration() {
+    const el = audioRef.current
+    if (!el) return
+    if (el.paused) {
+      el.play().catch(() => {})
+    } else {
+      el.pause()
+    }
   }
 
   return (
@@ -26,7 +98,7 @@ export function ComicFlipbook({ pages }) {
           Previous page
         </button>
         <p className="text-sm text-body-muted">
-          Page {currentPage + 1} of {pages.length} · use the buttons to flip
+          Page {currentPage + 1} of {pages.length}
         </p>
         <button
           type="button"
@@ -56,6 +128,21 @@ export function ComicFlipbook({ pages }) {
           ) : null}
         </div>
       </div>
+
+      {audio?.src ? (
+        <div className="w-full max-w-xl space-y-3 text-center">
+          <p className="text-sm text-body-muted">{audio.description}</p>
+          <button type="button" className="ui-btn-primary" onClick={toggleNarration}>
+            {playing ? 'Pause narration' : 'Play narration'}
+          </button>
+          <audio ref={audioRef} className="w-full" controls preload="metadata" src={audio.src}>
+            <track kind="captions" />
+          </audio>
+          <p className="text-xs text-body-muted">
+            One recording for the whole issue. Pages turn with the story — or flip first and the audio follows.
+          </p>
+        </div>
+      ) : null}
     </div>
   )
 }

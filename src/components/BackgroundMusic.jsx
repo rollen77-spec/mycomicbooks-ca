@@ -26,11 +26,17 @@ export function BackgroundMusic() {
     audio.addEventListener('play', onPlay)
     audio.addEventListener('pause', onPause)
 
+    const onComicAudio = (event) => {
+      if (event.detail?.playing) audio.pause()
+    }
+    window.addEventListener('mcb:comic-audio', onComicAudio)
+
     if (reduceMotion) {
       queueMicrotask(() => setNeedsGesture(true))
       return () => {
         audio.removeEventListener('play', onPlay)
         audio.removeEventListener('pause', onPause)
+        window.removeEventListener('mcb:comic-audio', onComicAudio)
         audio.pause()
       }
     }
@@ -54,6 +60,7 @@ export function BackgroundMusic() {
       document.removeEventListener('keydown', unlock)
       audio.removeEventListener('play', onPlay)
       audio.removeEventListener('pause', onPause)
+      window.removeEventListener('mcb:comic-audio', onComicAudio)
       audio.pause()
     }
   }, [onHome])

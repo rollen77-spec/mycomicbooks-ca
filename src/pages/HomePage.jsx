@@ -103,16 +103,7 @@ export function HomePage() {
         </div>
 
         <div className="ui-panel mt-10">
-          <ComicFlipbook pages={comicIssue.pages} />
-
-          <div className="mt-10 border-t border-ink/10 pt-8 text-center">
-            <h3 className="font-display text-xl tracking-wide text-ink sm:text-2xl">{comicIssue.audio.title}</h3>
-            <p className="mt-2 text-sm text-body-muted">{comicIssue.audio.description}</p>
-            <audio className="mx-auto mt-4 w-full max-w-xl" controls preload="metadata" src={comicIssue.audio.src}>
-              <track kind="captions" />
-              Your browser does not support audio playback.
-            </audio>
-          </div>
+          <ComicFlipbook pages={comicIssue.pages} audio={comicIssue.audio} />
         </div>
       </section>
 
