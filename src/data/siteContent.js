@@ -50,7 +50,7 @@ export const comicIssue = {
     title: 'Listen to Issue #1',
     description: 'The Great Escape — Hare’s Journey Begins.',
     /** Seconds where each page’s narration begins (page 1 / 2 / 3). Tune these if a flip feels early or late. */
-    pageStarts: [0, 135, 270],
+    pageStarts: [0, 171, 262],
   },
 }
 
