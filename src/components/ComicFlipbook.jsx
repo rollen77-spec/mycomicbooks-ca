@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
+import {
+  COMIC_AUDIO_EVENT,
+  dispatchComicAudio,
+  pauseAllAudioExcept,
+} from '../utils/audioCoordination.js'
 
 function pageIndexForTime(time, pageStarts) {
   let index = 0
   for (let i = 0; i < pageStarts.length; i += 1) {
-    if (time + 0.12 >= pageStarts[i]) index = i
+    if (time >= pageStarts[i]) index = i
   }
   return index
 }
@@ -27,12 +32,13 @@ export function ComicFlipbook({ pages, audio }) {
     if (!el) return undefined
 
     const onPlay = () => {
+      pauseAllAudioExcept(el)
       setPlaying(true)
-      window.dispatchEvent(new CustomEvent('mcb:comic-audio', { detail: { playing: true } }))
+      dispatchComicAudio(true)
     }
     const onPause = () => {
       setPlaying(false)
-      window.dispatchEvent(new CustomEvent('mcb:comic-audio', { detail: { playing: false } }))
+      dispatchComicAudio(false)
     }
     const onTime = () => {
       if (seekingRef.current || !audio?.pageStarts?.length) return
@@ -55,7 +61,7 @@ export function ComicFlipbook({ pages, audio }) {
       el.removeEventListener('ended', onPause)
       el.removeEventListener('timeupdate', onTime)
       el.pause()
-      window.dispatchEvent(new CustomEvent('mcb:comic-audio', { detail: { playing: false } }))
+      dispatchComicAudio(false)
     }
   }, [audio?.pageStarts])
 
@@ -80,6 +86,7 @@ export function ComicFlipbook({ pages, audio }) {
     const el = audioRef.current
     if (!el) return
     if (el.paused) {
+      pauseAllAudioExcept(el)
       el.play().catch(() => {})
     } else {
       el.pause()
@@ -135,7 +142,7 @@ export function ComicFlipbook({ pages, audio }) {
           <button type="button" className="ui-btn-primary" onClick={toggleNarration}>
             {playing ? 'Pause narration' : 'Play narration'}
           </button>
-          <audio ref={audioRef} className="w-full" controls preload="metadata" src={audio.src}>
+          <audio ref={audioRef} className="w-full" controls preload="auto" src={audio.src}>
             <track kind="captions" />
           </audio>
           <p className="text-xs text-body-muted">

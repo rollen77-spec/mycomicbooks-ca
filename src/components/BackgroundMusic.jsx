@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { themeSong } from '../data/siteContent.js'
+import { COMIC_AUDIO_EVENT } from '../utils/audioCoordination.js'
 
 export function BackgroundMusic() {
   const { pathname } = useLocation()
   const audioRef = useRef(null)
+  const comicPlayingRef = useRef(false)
   const [playing, setPlaying] = useState(false)
   const [needsGesture, setNeedsGesture] = useState(false)
   const onHome = pathname === '/'
@@ -27,29 +29,32 @@ export function BackgroundMusic() {
     audio.addEventListener('pause', onPause)
 
     const onComicAudio = (event) => {
-      if (event.detail?.playing) audio.pause()
+      comicPlayingRef.current = Boolean(event.detail?.playing)
+      if (comicPlayingRef.current) audio.pause()
     }
-    window.addEventListener('mcb:comic-audio', onComicAudio)
+    window.addEventListener(COMIC_AUDIO_EVENT, onComicAudio)
 
     if (reduceMotion) {
       queueMicrotask(() => setNeedsGesture(true))
       return () => {
         audio.removeEventListener('play', onPlay)
         audio.removeEventListener('pause', onPause)
-        window.removeEventListener('mcb:comic-audio', onComicAudio)
+        window.removeEventListener(COMIC_AUDIO_EVENT, onComicAudio)
         audio.pause()
       }
     }
 
-    const tryPlay = () =>
+    const tryPlay = () => {
+      if (comicPlayingRef.current) return
       audio.play().catch(() => {
         setNeedsGesture(true)
       })
+    }
 
     tryPlay()
 
     const unlock = () => {
-      if (!audio.paused) return
+      if (!audio.paused || comicPlayingRef.current) return
       tryPlay()
     }
     document.addEventListener('pointerdown', unlock, { once: true })
@@ -60,7 +65,7 @@ export function BackgroundMusic() {
       document.removeEventListener('keydown', unlock)
       audio.removeEventListener('play', onPlay)
       audio.removeEventListener('pause', onPause)
-      window.removeEventListener('mcb:comic-audio', onComicAudio)
+      window.removeEventListener(COMIC_AUDIO_EVENT, onComicAudio)
       audio.pause()
     }
   }, [onHome])
@@ -72,6 +77,7 @@ export function BackgroundMusic() {
     if (!audio) return
 
     if (audio.paused) {
+      if (comicPlayingRef.current) return
       audio.play().catch(() => setNeedsGesture(true))
     } else {
       audio.pause()
