@@ -1,68 +1,33 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { themeSong } from '../data/siteContent.js'
-import { COMIC_AUDIO_EVENT } from '../utils/audioCoordination.js'
+import { COMIC_AUDIO_EVENT, isNarrationActive } from '../utils/audioCoordination.js'
 
 export function BackgroundMusic() {
   const { pathname } = useLocation()
   const audioRef = useRef(null)
-  const comicPlayingRef = useRef(false)
   const [playing, setPlaying] = useState(false)
-  const [needsGesture, setNeedsGesture] = useState(false)
   const onHome = pathname === '/'
 
   useEffect(() => {
     const audio = audioRef.current
     if (!audio || !onHome) return
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     audio.volume = themeSong.volume ?? 0.45
     audio.loop = themeSong.loop !== false
 
-    const onPlay = () => {
-      setPlaying(true)
-      setNeedsGesture(false)
-    }
+    const onPlay = () => setPlaying(true)
     const onPause = () => setPlaying(false)
 
     audio.addEventListener('play', onPlay)
     audio.addEventListener('pause', onPause)
 
     const onComicAudio = (event) => {
-      comicPlayingRef.current = Boolean(event.detail?.playing)
-      if (comicPlayingRef.current) audio.pause()
+      if (event.detail?.playing) audio.pause()
     }
     window.addEventListener(COMIC_AUDIO_EVENT, onComicAudio)
 
-    if (reduceMotion) {
-      queueMicrotask(() => setNeedsGesture(true))
-      return () => {
-        audio.removeEventListener('play', onPlay)
-        audio.removeEventListener('pause', onPause)
-        window.removeEventListener(COMIC_AUDIO_EVENT, onComicAudio)
-        audio.pause()
-      }
-    }
-
-    const tryPlay = () => {
-      if (comicPlayingRef.current) return
-      audio.play().catch(() => {
-        setNeedsGesture(true)
-      })
-    }
-
-    tryPlay()
-
-    const unlock = () => {
-      if (!audio.paused || comicPlayingRef.current) return
-      tryPlay()
-    }
-    document.addEventListener('pointerdown', unlock, { once: true })
-    document.addEventListener('keydown', unlock, { once: true })
-
     return () => {
-      document.removeEventListener('pointerdown', unlock)
-      document.removeEventListener('keydown', unlock)
       audio.removeEventListener('play', onPlay)
       audio.removeEventListener('pause', onPause)
       window.removeEventListener(COMIC_AUDIO_EVENT, onComicAudio)
@@ -77,8 +42,8 @@ export function BackgroundMusic() {
     if (!audio) return
 
     if (audio.paused) {
-      if (comicPlayingRef.current) return
-      audio.play().catch(() => setNeedsGesture(true))
+      if (isNarrationActive()) return
+      audio.play().catch(() => {})
     } else {
       audio.pause()
     }
@@ -99,7 +64,7 @@ export function BackgroundMusic() {
           aria-label={playing ? `Pause ${themeSong.title}` : `Play ${themeSong.title}`}
         >
           <span aria-hidden="true">{playing ? '❚❚' : '▶'}</span>
-          <span>{needsGesture && !playing ? 'Play music' : playing ? 'Music on' : 'Music off'}</span>
+          <span>{playing ? 'Music on' : 'Play music'}</span>
         </button>
       </div>
     </>
