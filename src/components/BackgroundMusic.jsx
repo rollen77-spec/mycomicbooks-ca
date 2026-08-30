@@ -9,13 +9,14 @@ export function BackgroundMusic() {
   const [musicMounted, setMusicMounted] = useState(false)
   const [playing, setPlaying] = useState(false)
   const onHome = pathname === '/'
+  const showMusic = !onHome
 
   useEffect(() => {
-    if (!onHome) {
+    if (!showMusic) {
       setMusicMounted(false)
       setPlaying(false)
     }
-  }, [onHome])
+  }, [showMusic])
 
   useEffect(() => {
     const onComicAudio = (event) => {
@@ -60,7 +61,7 @@ export function BackgroundMusic() {
     }
   }, [musicMounted])
 
-  if (!onHome) return null
+  if (!showMusic) return null
 
   function toggle() {
     if (isNarrationActive()) return
