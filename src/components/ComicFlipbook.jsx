@@ -4,12 +4,17 @@ import {
   setNarrationActive,
 } from '../utils/audioCoordination.js'
 
-function pageIndexForTime(time, pageStarts) {
+function pageIndexForTime(time, pageTurnAt) {
   let index = 0
-  for (let i = 0; i < pageStarts.length; i += 1) {
-    if (time >= pageStarts[i]) index = i
+  for (let i = 0; i < pageTurnAt.length; i += 1) {
+    if (time >= pageTurnAt[i]) index = i + 1
   }
   return index
+}
+
+function startTimeForPage(pageIndex, pageTurnAt) {
+  if (pageIndex <= 0) return 0
+  return pageTurnAt[pageIndex - 1] ?? 0
 }
 
 function formatTime(seconds) {
@@ -23,17 +28,25 @@ function formatTime(seconds) {
 export function ComicFlipbook({ pages, audio }) {
   const audioRef = useRef(null)
   const pageRef = useRef(0)
+  const pageTurnAt = audio?.pageTurnAt ?? []
   const [currentPage, setCurrentPage] = useState(0)
   const [flipping, setFlipping] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
   const page = pages[currentPage]
-  const pageStarts = audio?.pageStarts ?? []
 
   function syncPage(index) {
     pageRef.current = index
     setCurrentPage(index)
+  }
+
+  function flipToPage(nextPage) {
+    if (nextPage === pageRef.current) return
+    pageRef.current = nextPage
+    setFlipping(true)
+    setCurrentPage(nextPage)
+    window.setTimeout(() => setFlipping(false), 220)
   }
 
   useEffect(() => {
@@ -50,23 +63,11 @@ export function ComicFlipbook({ pages, audio }) {
       setPlaying(false)
       setNarrationActive(false)
     }
-    const onTime = () => {
-      setProgress(el.currentTime)
-      if (el.seeking || el.paused || !pageStarts.length) return
-      const nextPage = pageIndexForTime(el.currentTime, pageStarts)
-      if (nextPage !== pageRef.current) {
-        pageRef.current = nextPage
-        setFlipping(true)
-        setCurrentPage(nextPage)
-        window.setTimeout(() => setFlipping(false), 220)
-      }
-    }
 
     el.addEventListener('loadedmetadata', onLoaded)
     el.addEventListener('play', onPlay)
     el.addEventListener('pause', onPause)
     el.addEventListener('ended', onPause)
-    el.addEventListener('timeupdate', onTime)
 
     if (el.readyState >= 1) onLoaded()
 
@@ -75,11 +76,31 @@ export function ComicFlipbook({ pages, audio }) {
       el.removeEventListener('play', onPlay)
       el.removeEventListener('pause', onPause)
       el.removeEventListener('ended', onPause)
-      el.removeEventListener('timeupdate', onTime)
       el.pause()
       setNarrationActive(false)
     }
-  }, [audio?.src, pageStarts])
+  }, [audio?.src])
+
+  useEffect(() => {
+    if (!playing) return undefined
+
+    const el = audioRef.current
+    if (!el || !pageTurnAt.length) return undefined
+
+    let frame = 0
+    const tick = () => {
+      if (!el.paused && !el.seeking) {
+        const time = el.currentTime
+        setProgress(time)
+        const nextPage = pageIndexForTime(time, pageTurnAt)
+        if (nextPage !== pageRef.current) flipToPage(nextPage)
+      }
+      frame = window.requestAnimationFrame(tick)
+    }
+
+    frame = window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(frame)
+  }, [playing, pageTurnAt])
 
   function goTo(nextIndex) {
     if (flipping || nextIndex < 0 || nextIndex >= pages.length || nextIndex === currentPage) return
@@ -87,8 +108,8 @@ export function ComicFlipbook({ pages, audio }) {
     syncPage(nextIndex)
 
     const el = audioRef.current
-    const start = pageStarts[nextIndex]
-    if (el && !el.paused && typeof start === 'number') {
+    const start = startTimeForPage(nextIndex, pageTurnAt)
+    if (el && !el.paused) {
       el.currentTime = start
       setProgress(start)
     }
@@ -190,11 +211,11 @@ export function ComicFlipbook({ pages, audio }) {
             {formatTime(progress)}
             {duration ? ` / ${formatTime(duration)}` : ''}
           </p>
-          <audio ref={audioRef} className="sr-only" preload="auto" src={audio.src}>
+          <audio ref={audioRef} className="w-full" controls preload="metadata" src={audio.src}>
             <track kind="captions" />
           </audio>
           <p className="text-xs text-body-muted">
-            Pages turn at 2:51 and 4:22 while narration plays. Pause background music for the best experience.
+            Pages turn at 2:51 and 4:22. Other site audio pauses automatically while narration plays.
           </p>
         </div>
       ) : null}

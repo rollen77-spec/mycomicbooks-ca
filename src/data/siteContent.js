@@ -46,11 +46,11 @@ export const comicIssue = {
     { src: '/site/gallery-hare-3.jpg', alt: 'Hare: The Hero Within — page 3' },
   ],
   audio: {
-    src: '/site/comics/the-great-escape-narration.mp3',
+    src: '/site/comics/the-great-escape-narration.mp3?v=20260830',
     title: 'Listen to Issue #1',
     description: 'The Great Escape — Hare’s Journey Begins.',
-    /** Page turns at 2:51 (page 2) and 4:22 (page 3). */
-    pageStarts: [0, 171, 262],
+    /** Page 1→2 at 2:51, page 2→3 at 4:22. */
+    pageTurnAt: [171, 262],
   },
 }
 
