@@ -14,7 +14,6 @@ export const site = {
 }
 
 export const heroCopy = {
-  kicker: 'Comic Books Galore.',
   title: 'Discover the World of Comic Books',
   subtitle: 'Your online destination for comic books and more.',
 }

@@ -36,9 +36,6 @@ export function HomePage() {
         <div className="relative z-[1] flex min-h-[min(60vh,560px)] items-center">
           <div className="mx-auto w-full max-w-6xl">
             <div className="max-w-xl space-y-4 text-left text-cream">
-              <p className="font-display text-lg uppercase tracking-[0.2em] text-brand sm:text-xl">
-                {heroCopy.kicker}
-              </p>
               <h1 className="font-display text-4xl leading-tight tracking-wide sm:text-5xl lg:text-[3.25rem] lg:leading-[1.1]">
                 {heroCopy.title}
               </h1>
