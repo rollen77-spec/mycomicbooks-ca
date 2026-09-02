@@ -215,7 +215,7 @@ export function ComicFlipbook({ pages, audio }) {
             <track kind="captions" />
           </audio>
           <p className="text-xs text-body-muted">
-            Pages turn at 2:51 and 4:22. Only this narration plays on the homepage.
+            Pages turn at 2:46 and 4:05. Only this narration plays on the homepage.
           </p>
         </div>
       ) : null}
