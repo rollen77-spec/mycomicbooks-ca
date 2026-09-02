@@ -62,17 +62,22 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="bg-ink px-4 sm:px-6" aria-label="Comics showcase">
-        <div className="mx-auto max-w-6xl overflow-hidden">
-          <img
-            src={homeInventoryPromo.banner.src}
-            alt={homeInventoryPromo.banner.alt}
-            className="block w-full"
-            width={1024}
-            height={571}
-            loading="eager"
-            decoding="async"
-          />
+      <section className="bg-ink px-4 py-8 sm:px-6 sm:py-10" aria-label="Comics showcase">
+        <div className="mx-auto max-w-6xl text-center">
+          <h2 className="font-display text-2xl italic leading-tight tracking-wide text-brand drop-shadow-[2px_2px_0_#c41e3a] sm:text-3xl md:text-4xl">
+            {homeInventoryPromo.banner.title}
+          </h2>
+          <figure className="mx-auto mt-5 w-[60%] min-w-[16rem] max-w-[36rem] overflow-hidden">
+            <img
+              src={homeInventoryPromo.banner.src}
+              alt={homeInventoryPromo.banner.alt}
+              className="block w-full -mt-[26%]"
+              width={1024}
+              height={571}
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
         </div>
       </section>
 

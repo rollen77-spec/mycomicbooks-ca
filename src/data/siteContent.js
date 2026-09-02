@@ -22,7 +22,8 @@ export const heroCopy = {
 export const homeInventoryPromo = {
   banner: {
     src: '/site/comics-galore-banner.png',
-    alt: 'Comics Galore — classic Marvel comic book covers',
+    alt: 'Check Out Our Comic Inventory — classic Marvel comic book covers',
+    title: 'Check Out Our Comic Inventory',
   },
   midCta: {
     heading: 'Browse our comic inventory',
