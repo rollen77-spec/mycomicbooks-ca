@@ -88,11 +88,11 @@ export function HeroAnimation() {
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="absolute inset-y-0 right-0 w-full lg:w-[62%] xl:w-[58%]">
+      <div className="absolute inset-y-0 right-0 w-full opacity-35 sm:opacity-50 lg:w-[62%] lg:opacity-100 xl:w-[58%]">
         {!reduceMotion ? (
           <iframe
             ref={iframeRef}
-            className="absolute left-1/2 top-1/2 h-[130%] w-[130%] min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 border-0 lg:left-[52%]"
+            className="absolute left-1/2 top-[58%] h-[115%] w-[115%] min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 border-0 sm:top-1/2 sm:h-[125%] sm:w-[125%] lg:left-[52%] lg:top-1/2 lg:h-[130%] lg:w-[130%]"
             src={heroVideoSrc}
             title="My Comic Books logo animation"
             allow="autoplay; fullscreen"

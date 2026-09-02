@@ -36,11 +36,11 @@
   }
 
   .ui-panel {
-    @apply rounded-xl border border-ink/10 bg-panel p-8 shadow-sm shadow-black/[0.04] sm:p-10;
+    @apply rounded-xl border border-ink/10 bg-panel p-5 shadow-sm shadow-black/[0.04] sm:p-8 lg:p-10;
   }
 
   .ui-cta-panel {
-    @apply rounded-xl border border-brand/20 bg-cream-muted px-6 py-8 text-center shadow-sm;
+    @apply rounded-xl border border-brand/20 bg-cream-muted px-4 py-6 text-center shadow-sm sm:px-6 sm:py-8;
   }
 
   .ui-media {

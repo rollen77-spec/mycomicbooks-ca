@@ -153,10 +153,10 @@ export function ComicFlipbook({ pages, audio }) {
 
   return (
     <div className="flex flex-col items-center gap-5">
-      <div className="flex flex-wrap items-center justify-center gap-3">
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
         <button
           type="button"
-          className="rounded-lg border border-ink/15 bg-white px-4 py-2 text-sm font-semibold uppercase tracking-wide text-ink transition hover:bg-cream-muted disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg border border-ink/15 bg-white px-3 py-2 text-xs font-semibold uppercase tracking-wide text-ink transition hover:bg-cream-muted disabled:cursor-not-allowed disabled:opacity-40 sm:px-4 sm:text-sm"
           onClick={() => goTo(currentPage - 1)}
           disabled={currentPage <= 0 || flipping || playing}
         >
@@ -197,12 +197,12 @@ export function ComicFlipbook({ pages, audio }) {
       {audio?.src ? (
         <div className="w-full max-w-xl space-y-3 text-center">
           <p className="text-sm text-body-muted">{audio.description}</p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <button type="button" className="ui-btn-primary" onClick={toggleNarration}>
+          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
+            <button type="button" className="ui-btn-primary w-full justify-center sm:w-auto" onClick={toggleNarration}>
               {playing ? 'Pause narration' : 'Play narration'}
             </button>
             {!playing ? (
-              <button type="button" className="ui-btn-primary-sm" onClick={startNarration}>
+              <button type="button" className="ui-btn-primary-sm w-full justify-center sm:w-auto" onClick={startNarration}>
                 Start from page 1
               </button>
             ) : null}

@@ -22,35 +22,36 @@ export function HomePage() {
   return (
     <>
       <section
-        className="relative isolate min-h-[min(75vh,700px)] overflow-hidden bg-ink px-4 py-14 sm:px-6 sm:py-16"
+        className="relative isolate min-h-[min(62vh,620px)] overflow-hidden bg-ink px-4 py-10 sm:min-h-[min(70vh,680px)] sm:px-6 sm:py-14 lg:min-h-[min(75vh,700px)] lg:py-16"
         aria-label="Hero"
       >
         <HeroAnimation />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/95 via-ink/88 to-ink/80 lg:hidden" />
         <div
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 hidden lg:block"
           style={{
             background:
               'linear-gradient(to right, #161616 0%, #161616 26%, rgba(22,22,22,0.88) 40%, rgba(22,22,22,0.18) 72%, rgba(22,22,22,0.55) 100%)',
           }}
         />
-        <div className="relative z-[1] flex min-h-[min(60vh,560px)] items-center">
+        <div className="relative z-[1] flex min-h-[min(52vh,480px)] items-center sm:min-h-[min(58vh,520px)] lg:min-h-[min(60vh,560px)]">
           <div className="mx-auto w-full max-w-6xl">
             <div className="max-w-xl space-y-4 text-left text-cream">
-              <h1 className="font-display text-4xl leading-tight tracking-wide sm:text-5xl lg:text-[3.25rem] lg:leading-[1.1]">
+              <h1 className="font-display text-3xl leading-tight tracking-wide sm:text-4xl sm:leading-tight lg:text-[3.25rem] lg:leading-[1.1]">
                 {heroCopy.title}
               </h1>
-              <p className="text-lg text-cream/90 sm:text-xl">{heroCopy.subtitle}</p>
-              <div className="flex flex-wrap gap-3 pt-4">
+              <p className="text-base text-cream/90 sm:text-lg lg:text-xl">{heroCopy.subtitle}</p>
+              <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap sm:pt-4">
                 <a
-                  className="ui-btn-primary"
+                  className="ui-btn-primary w-full justify-center sm:w-auto"
                   href={`mailto:${site.email}?subject=INQUIRY%20FOR%20DETAILS&body=Contact%20us%20for%20pricing%20details.`}
                 >
                   Contact for pricing
                 </a>
-                <Link className="ui-btn-ghost-light" to="/whats-in-stock">
+                <Link className="ui-btn-ghost-light w-full justify-center sm:w-auto" to="/whats-in-stock">
                   What&apos;s in stock
                 </Link>
-                <Link className="ui-btn-ghost-light" to="/f">
+                <Link className="ui-btn-ghost-light w-full justify-center sm:w-auto" to="/f">
                   Read the blog
                 </Link>
               </div>
@@ -59,12 +60,12 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="bg-ink px-4 py-8 sm:px-6 sm:py-10" aria-label="Comics showcase">
+      <section className="bg-ink px-4 py-6 sm:px-6 sm:py-10" aria-label="Comics showcase">
         <div className="mx-auto max-w-6xl text-center">
-          <h2 className="font-display text-2xl italic leading-tight tracking-wide text-brand drop-shadow-[2px_2px_0_#c41e3a] sm:text-3xl md:text-4xl">
+          <h2 className="mx-auto max-w-2xl px-1 font-display text-xl leading-snug tracking-wide text-brand text-balance drop-shadow-[2px_2px_0_#c41e3a] sm:text-2xl md:text-3xl lg:text-4xl">
             {homeInventoryPromo.banner.title}
           </h2>
-          <figure className="mx-auto mt-5 w-[60%] min-w-[16rem] max-w-[36rem]">
+          <figure className="mx-auto mt-4 w-full max-w-[20rem] sm:mt-5 sm:max-w-md md:max-w-xl lg:max-w-2xl">
             <img
               src={homeInventoryPromo.banner.src}
               alt={homeInventoryPromo.banner.alt}

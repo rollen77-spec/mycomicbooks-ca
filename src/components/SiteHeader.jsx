@@ -12,19 +12,19 @@ export function SiteHeader() {
 
   return (
     <header className="ui-site-header">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link to="/" className="flex items-center gap-3" aria-label={`${site.name} home`}>
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:px-6">
+        <Link to="/" className="flex items-center gap-2 sm:gap-3" aria-label={`${site.name} home`}>
           <img
             src="/site/logo.svg"
             alt=""
-            className="h-10 w-auto sm:h-12"
+            className="h-9 w-auto sm:h-12"
             width={180}
             height={60}
             decoding="async"
           />
-          <span className="font-display text-xl tracking-wide sm:text-2xl">{site.name}</span>
+          <span className="font-display text-lg tracking-wide sm:text-2xl">{site.name}</span>
         </Link>
-        <nav className="flex flex-wrap items-center gap-1 sm:gap-2" aria-label="Primary">
+        <nav className="flex w-full flex-wrap items-center justify-center gap-1 sm:w-auto sm:justify-end sm:gap-2" aria-label="Primary">
           <NavLink to="/" className={({ isActive }) => navClass(isActive)} end>
             Home
           </NavLink>
