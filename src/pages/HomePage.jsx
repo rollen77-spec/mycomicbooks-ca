@@ -187,7 +187,6 @@ export function HomePage() {
             <h2 id="posts-heading" className="font-display text-3xl tracking-wide text-ink sm:text-4xl">
               Latest from the blog
             </h2>
-            <p className="mt-2 text-body-muted">Articles mirrored from your GoDaddy feed.</p>
           </div>
           <Link
             className="font-semibold uppercase tracking-wide text-gold-deep underline-offset-4 hover:underline"
