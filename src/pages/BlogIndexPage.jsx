@@ -12,9 +12,6 @@ export function BlogIndexPage() {
       <header className="text-center">
         <p className="text-sm font-semibold uppercase tracking-wide text-gold-deep">Field notes</p>
         <h1 className="mt-2 font-display text-4xl tracking-wide text-ink sm:text-5xl">Blog</h1>
-        <p className="mx-auto mt-3 max-w-2xl text-body-muted">
-          Stories and collecting tips from {site.name}, migrated from your previous site.
-        </p>
       </header>
       <ul className="mt-12 space-y-8">
         {posts.map((post) => (
