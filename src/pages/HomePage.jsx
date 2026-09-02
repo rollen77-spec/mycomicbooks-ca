@@ -7,7 +7,6 @@ import {
   comicIssue,
   heroCopy,
   homeInventoryPromo,
-  newsletter,
   podcast,
   posts,
   quotes,
@@ -225,22 +224,6 @@ export function HomePage() {
 
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-label="Inventory">
         <InventoryCta {...homeInventoryPromo.bottomCta} />
-      </section>
-
-      <section className="ui-section-divider-t bg-cream-muted px-4 py-14 sm:px-6" aria-labelledby="newsletter-heading">
-        <div className="ui-panel mx-auto max-w-3xl text-center">
-          <h2 id="newsletter-heading" className="font-display text-3xl tracking-wide text-ink sm:text-4xl">
-            Stay in the loop
-          </h2>
-          <p className="mt-3 text-body-muted">{newsletter.title}</p>
-          <p className="mt-2 text-sm text-body-muted">{newsletter.body}</p>
-          <a
-            className="ui-btn-primary mt-6"
-            href={`mailto:${site.email}?subject=Newsletter%20signup&body=Please%20add%20me%20to%20your%20mailing%20list.`}
-          >
-            Email to subscribe
-          </a>
-        </div>
       </section>
     </>
   )

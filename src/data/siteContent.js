@@ -73,11 +73,6 @@ export const comicIssue = {
   },
 }
 
-export const newsletter = {
-  title: 'Be the first to hear about new arrivals, popular comics, and upcoming sales.',
-  body: 'Contact us for pricing details.',
-}
-
 export const podcast = {
   title: 'My Comic Books Podcast',
   body: 'Stream episodes covering keys, market moves, and collecting stories.',
