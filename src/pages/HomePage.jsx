@@ -2,9 +2,11 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ComicFlipbook } from '../components/ComicFlipbook.jsx'
 import { HeroAnimation } from '../components/HeroAnimation.jsx'
+import { InventoryCta } from '../components/InventoryCta.jsx'
 import {
   comicIssue,
   heroCopy,
+  homeInventoryPromo,
   newsletter,
   podcast,
   posts,
@@ -60,6 +62,20 @@ export function HomePage() {
         </div>
       </section>
 
+      <section className="bg-ink px-4 sm:px-6" aria-label="Comics showcase">
+        <div className="mx-auto max-w-6xl overflow-hidden">
+          <img
+            src={homeInventoryPromo.banner.src}
+            alt={homeInventoryPromo.banner.alt}
+            className="block w-full"
+            width={1024}
+            height={571}
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      </section>
+
       {quotes.map((q) => (
         <section
           key={q.text}
@@ -105,6 +121,8 @@ export function HomePage() {
         <div className="ui-panel mt-10">
           <ComicFlipbook pages={comicIssue.pages} audio={comicIssue.audio} />
         </div>
+
+        <InventoryCta className="mt-12" {...homeInventoryPromo.midCta} />
       </section>
 
       <section className="bg-ink px-4 py-14 text-cream sm:px-6" aria-labelledby="podcast-heading">
@@ -201,6 +219,10 @@ export function HomePage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6" aria-label="Inventory">
+        <InventoryCta {...homeInventoryPromo.bottomCta} />
       </section>
 
       <section className="ui-section-divider-t bg-cream-muted px-4 py-14 sm:px-6" aria-labelledby="newsletter-heading">

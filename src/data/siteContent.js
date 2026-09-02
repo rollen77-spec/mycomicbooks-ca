@@ -19,6 +19,25 @@ export const heroCopy = {
   subtitle: 'Your online destination for comic books and more.',
 }
 
+export const homeInventoryPromo = {
+  banner: {
+    src: '/site/comics-galore-banner.png',
+    alt: 'Comics Galore — classic Marvel comic book covers',
+  },
+  midCta: {
+    heading: 'Browse our comic inventory',
+    body: 'Vintage keys, reader copies, and hard-to-find issues waiting for a new home.',
+    ctaLabel: "What's In Stock",
+    to: '/whats-in-stock',
+  },
+  bottomCta: {
+    heading: 'Ready to hunt for your next key?',
+    body: 'See what is on the shelf and reach out for availability and pricing.',
+    ctaLabel: 'See All Comics',
+    to: '/whats-in-stock',
+  },
+}
+
 /** Theme song — plays on homepage landing (browser may require one click). */
 export const themeSong = {
   title: 'Red Hoodie Hare',
